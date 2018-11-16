@@ -25,9 +25,8 @@ function onDOMLoaded() {
         text: input.value,
         status: 'UNCHECKED',
         time : Date.now()
-
       })
-
+      document.getElementById('input').value="";
       localStorage.setItem('db', JSON.stringify(todos))
 
 
@@ -46,14 +45,15 @@ function onDOMLoaded() {
 function loadDB() {
   todos =[]
   if(localStorage.getItem('db') !=null) todos = JSON.parse(localStorage.getItem('db'))
- 
+  console.log(todos);
 }
 
 // remove an element then update the UI
 function removeItem(list, id) {
-  list.splice(id, 1)
-  localStorage.setItem('db', JSON.stringify(list))
-  updateUI(list)
+  list.splice(id, 1);
+  //console.log(id);
+  localStorage.setItem('db', JSON.stringify(list));
+  updateUI(list);
 }
 
 
@@ -67,7 +67,7 @@ function updateUI(todos) {
     <div class="todo">
       <div class="text ${todo.status === 'CHECKED' ? 'checked' : 'unchecked'}">${todo.text}</div>
       <button id="${i}" class="remove">
-        <img width="20px" src="${require('./assets/remove.svg')}" alt="">
+        <img id="${i}" width="20px" src="${require('./assets/remove.svg')}" alt="">
       </button>
     </div>
   `
@@ -84,6 +84,7 @@ function updateUI(todos) {
 
     buttons[index].addEventListener('click', (event)=>{
       removeItem(todos, event.target.id)
+      console.log(event.target);
     })    
    
     
@@ -94,7 +95,7 @@ function updateUI(todos) {
   // loop through all divs and add click event to it
   for (let index = 0; index < Tests.length; index++) {
   Tests[index].addEventListener('click', (event)=>{
-    console.log(event);
+    //console.log(event);
     if(event.target.className ==="text unchecked"){
       event.target.className = "text checked" ;
     }else{

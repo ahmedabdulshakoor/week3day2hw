@@ -129,6 +129,7 @@ function onDOMLoaded() {
         status: 'UNCHECKED',
         time: Date.now()
       });
+      document.getElementById('input').value = "";
       localStorage.setItem('db', JSON.stringify(todos)); // always update the UI with new data
 
       updateUI(todos);
@@ -141,11 +142,13 @@ function onDOMLoaded() {
 function loadDB() {
   todos = [];
   if (localStorage.getItem('db') != null) todos = JSON.parse(localStorage.getItem('db'));
+  console.log(todos);
 } // remove an element then update the UI
 
 
 function removeItem(list, id) {
-  list.splice(id, 1);
+  list.splice(id, 1); //console.log(id);
+
   localStorage.setItem('db', JSON.stringify(list));
   updateUI(list);
 }
@@ -155,27 +158,30 @@ function updateUI(todos) {
   // map every item with the template
   // flat the generated array of html into one big html string
   var html = todos.map(function (todo, i) {
-    return "\n    <div class=\"todo\">\n      <div class=\"text ".concat(todo.status === 'CHECKED' ? 'checked' : 'unchecked', "\">").concat(todo.text, "</div>\n      <button id=\"").concat(i, "\" class=\"remove\">\n        <img width=\"20px\" src=\"").concat(require('./assets/remove.svg'), "\" alt=\"\">\n      </button>\n    </div>\n  ");
+    return "\n    <div class=\"todo\">\n      <div class=\"text ".concat(todo.status === 'CHECKED' ? 'checked' : 'unchecked', "\">").concat(todo.text, "</div>\n      <button id=\"").concat(i, "\" class=\"remove\">\n        <img id=\"").concat(i, "\" width=\"20px\" src=\"").concat(require('./assets/remove.svg'), "\" alt=\"\">\n      </button>\n    </div>\n  ");
   }).join('\n');
   content.innerHTML = html; // select all the buttons with class name of REMOVE
 
-  var buttons = document.getElementsByClassName('remove');
-  var Tests = document.getElementsByClassName('todo'); // loop through all buttons and add click event to it
+  var buttons = document.getElementsByClassName('remove'); // loop through all buttons and add click event to it
 
   for (var index = 0; index < buttons.length; index++) {
     buttons[index].addEventListener('click', function (event) {
       removeItem(todos, event.target.id);
+      console.log(event.target);
     });
-    Tests[index].addEventListener('click', function (event) {
-      console.log(event);
+  } // select all the div with class name of todo
 
+
+  var Tests = document.getElementsByClassName('todo'); // loop through all divs and add click event to it
+
+  for (var _index = 0; _index < Tests.length; _index++) {
+    Tests[_index].addEventListener('click', function (event) {
+      //console.log(event);
       if (event.target.className === "text unchecked") {
         event.target.className = "text checked";
-        console.log("text unchecked");
       } else {
         if (event.target.className === "text checked") {
           event.target.className = "text unchecked";
-          console.log("text checked");
         }
       }
     });
@@ -208,7 +214,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46486" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "15116" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
