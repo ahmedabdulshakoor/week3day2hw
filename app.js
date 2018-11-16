@@ -78,27 +78,31 @@ function updateUI(todos) {
 
   // select all the buttons with class name of REMOVE
   let buttons = document.getElementsByClassName('remove')
-  let Tests = document.getElementsByClassName('todo')
+  
   // loop through all buttons and add click event to it
   for (let index = 0; index < buttons.length; index++) {
 
     buttons[index].addEventListener('click', (event)=>{
       removeItem(todos, event.target.id)
     })    
-    Tests[index].addEventListener('click', (event)=>{
-      console.log(event);
-      if(event.target.className ==="text unchecked"){
-        event.target.className = "text checked" ;
-        console.log("text unchecked" ) ;
-      }else{
-      if (event.target.className ==="text checked"){
-        event.target.className = "text unchecked" ;
-        console.log("text checked"  ) ;
-      }}
-    })   
+   
+    
   }
 
-
+  // select all the div with class name of todo
+  let Tests = document.getElementsByClassName('todo')
+  // loop through all divs and add click event to it
+  for (let index = 0; index < Tests.length; index++) {
+  Tests[index].addEventListener('click', (event)=>{
+    console.log(event);
+    if(event.target.className ==="text unchecked"){
+      event.target.className = "text checked" ;
+    }else{
+    if (event.target.className ==="text checked"){
+      event.target.className = "text unchecked" ;
+    }}
+  }) 
+}
 
 }
 
